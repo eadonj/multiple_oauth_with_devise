@@ -2,7 +2,7 @@ class AuthenticationsController < Devise::OmniauthCallbacksController
   include AuthenticationsHelper
 
   def all
-    omni = request.env('omniauth.auth')
+    omni = request.env['omniauth.auth']
     authentication = Authentication.find_by_provider_and_uid(omni['provider'], omni['uid'])
     if authentication
       sign_in_user(authentication)

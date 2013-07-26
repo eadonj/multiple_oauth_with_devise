@@ -15,7 +15,7 @@ module AuthenticationsHelper
     user = User.new
     user.email = omni['extra']['raw_info'].email if omni['extra']['raw_info'].email
     user.apply_omniauth(omni)
-    if user.save 
+    if user.save
       sign_in_and_redirect user
     elsif omni['provider'] == 'twitter'
       session[:omniauth] = omni.except('extra')
@@ -25,9 +25,5 @@ module AuthenticationsHelper
     end
   end
 
-  def apply_omniauth(omni)
-    authentications.build(provider: omni['provider'], uid: omni['uid'],
-                          token: omni['credentials'].token,
-                          token_secret: omni['credentials'].secret)
-  end
+
 end
