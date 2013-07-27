@@ -20,5 +20,4 @@ class User < ActiveRecord::Base
   def password_required?
     authentications.empty? && super
   end
-
 end  
