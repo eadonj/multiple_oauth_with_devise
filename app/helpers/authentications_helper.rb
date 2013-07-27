@@ -17,13 +17,19 @@ module AuthenticationsHelper
     user.apply_omniauth(omni)
     if user.save
       sign_in_and_redirect user
-    elsif omni['provider'] == 'twitter'
-      session[:omniauth] = omni.except('extra')
-      redirect_to new_user_registration_path
+    elsif User.omniauth_providers.include?(omni['provider'].to_sym)
+      send "#{omni['provider']}_signup", omni
     else
       redirect_to multiauth_path
     end
   end
 
+  def after_sign_in_path_for(user)
+    user_path(user)
+  end
 
+  def twitter_signup(omni)
+    session[:omniauth] = omni.except('extra')
+    redirect_to new_user_registration_path
+  end
 end

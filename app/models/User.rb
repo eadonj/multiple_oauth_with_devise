@@ -11,8 +11,8 @@ class User < ActiveRecord::Base
   
   has_many :authentications, dependent: :destroy
 
-  def apply_omniauth(omni, user)
-    user.authentications.build(provider: omni['provider'], uid: omni['uid'],
+  def apply_omniauth(omni)
+    authentications.build(provider: omni['provider'], uid: omni['uid'],
                           token: omni['credentials'].token,
                           token_secret: omni['credentials'].secret)
   end
@@ -21,4 +21,4 @@ class User < ActiveRecord::Base
     authentications.empty? && super
   end
 
-end
+end  
