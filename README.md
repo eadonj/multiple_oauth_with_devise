@@ -74,9 +74,7 @@ end
 
 ### It's OmniAuth Time!
 
-If you've gotten this far and haven't taken a coffee break yet, now would be a good time to do so...
-
-First things first, add the necessary gems to your Gemfile.
+Let's get your app up and running with OmniAuth. First things first, add the necessary gems to your Gemfile.
 
 ```ruby
 gem 'omniauth'
@@ -98,7 +96,11 @@ devise :database_authenticatable, :registerable,
 If you navigate to your /users/sign_up page, you should now see a link to **Sign in with Facebook**.  Go ahead, pat yourself on the back or high-five your programming buddy.  Clicking that link will return some sort of JSON object. This is because we haven't yet told our app *how* to interact with Facebook.
 
 
-### Get You Some Facebook Developer Action
+### Configuring Your App to Communicate with Facebook
+
+Blah blah blah
+
+#### Get and Set Facebook ENV Variables
 
 Your next mission is to head to the [Facebook Developers](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CE4QFjAA&url=http%3A%2F%2Fdevelopers.facebook.com%2F&ei=CrnyUd6LJKSnigKatIGICA&usg=AFQjCNFVzsdWCNvnTJQfu8XOcDUXZcAqwA&sig2=FlX0G9mec4ckuFTJ4M_Qaw&bvm=bv.49784469,d.cGE) page, set up an account (if you don't already have one) and create a new app.  The goal is to get two important pieces of information: your Facebook App ID/API Key and App Secret.
 
@@ -118,12 +120,11 @@ config.omniauth :facebook, ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_APP_SECRET'], {
 
 Now, when you click the **Sign in with Facebook** link on your /users/sign_up page, you will properly be directed to Facebook to authorize your app.  That's what we call a handshake!  Once you authorize your app to communicate with Facebook, you'll be directed back to your app where... you'll see an 'Unknown action' error.  Womp womp.  Read the error message -- it might be helpful.  Then continue on, my friend.
 
-
-### Almost There: Configuring Your App to Communicate with Facebook
+#### SOME HEADER
 
 According to the aforementioned error message, we need to create an Authentications Controller (i.e. Devise::OmniauthCallbacksController) and Facebook method in order to allow our app to communicate with Facebook.  Get ready to do some heavy copy/pasting, but don't worry, we'll explain everything in detail later.
 
-#### The Code
+##### The Code
 
 Create your authentications_controller.rb that includes a Facebook method:
 
@@ -197,7 +198,8 @@ class User < ActiveRecord::Base
 end
 ```
 
-#### The Explanation
+##### The Explanation
+
 Explain what's happening in detail...
 - Create an AuthenticationsController that inherits from Devise::OmniauthCallbacksController
 - Edit the 'devise_for :users' line in config/routes to the following: 'devise_for :users, controllers: {:omniauth_callbacks => 'authentications'}'
