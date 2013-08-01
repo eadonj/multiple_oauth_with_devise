@@ -8,7 +8,6 @@ module AuthenticationsHelper
     sign_in_and_redirect User.find(user_id)
   end
 
-
   def twitter_signup(omni)
     session[:omniauth] = omni.except('extra')
     redirect_to new_user_registration_path

@@ -3,13 +3,21 @@ class Authentication < ActiveRecord::Base
 
   attr_accessible :provider, :uid, :token, :token_secret
 
-  def self.create_from_omniauth!(omni, user_id)
+  def self.find_from_omniauth(omniauth)
+    where(
+      provider: omniauth['provider'],
+      token: omniauth['credentials'].token,
+      token_secret: omniauth['credentials'].secret
+    ).first
+  end
+
+  def self.create_from_omniauth!(omniauth, user_id)
     create!(
       user_id: user_id,
-      provider: omni['provider'], 
-      uid: omni['uid'], 
-      token: omni['credentials'].token,
-      token_secret: omni['credentials'].secret
+      provider: omniauth['provider'], 
+      uid: omniauth['uid'], 
+      token: omniauth['credentials'].token,
+      token_secret: omniauth['credentials'].secret
     )
   end
 end

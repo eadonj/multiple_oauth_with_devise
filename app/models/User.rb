@@ -14,17 +14,17 @@ class User < ActiveRecord::Base
   has_many :authentications, dependent: :destroy
 
   def apply_omniauth(omni)
-
+    authentications.build(
+      provider: omni['provider'],
+      uid: omni['uid'],
+      token: omni['credentials'].token,
+      token_secret: omni['credentials'].secret
+    )
   end
 
   def password_required?
     authentications.empty? && super
   end
-
-  # def facebook_credentials
-  # end
-
-  # def add_authentication
 
   def add_new_oauth(authentication, token, token_secret)
     token = omni['credentials'].token
@@ -37,12 +37,7 @@ class User < ActiveRecord::Base
   def self.create_from_omniauth!(omni)
     user = new
     user.email = omni['extra']['raw_info'].email if omni['extra']['raw_info'].email
-    user.authentications.build(
-      provider: omni['provider'], 
-      uid: omni['uid'],                    
-      token: omni['credentials'].token,
-      token_secret: omni['credentials'].secret
-    )
+    user.apply_omniauth(omni)
     user.save ? user : nil
   end
 
