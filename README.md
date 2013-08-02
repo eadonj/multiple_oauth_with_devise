@@ -204,6 +204,8 @@ end
 
 ##### The Explanation
 
+
+
 Explain what's happening in detail...
 - Create an AuthenticationsController that inherits from Devise::OmniauthCallbacksController
 - Edit the 'devise_for :users' line in config/routes to the following: 'devise_for :users, controllers: {:omniauth_callbacks => 'authentications'}'
